@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>My Music - Playlist Manager</title>
+   <link rel="stylesheet" href="css/styles.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+   <!-- Top Navigation Bar -->
+   <header class="top-nav">
+      <div class="search-container">
+         <i class="fas fa-search"></i>
+         <input type="text" id="searchInput" placeholder="Search for songs, artists, or albums...">
+         <i class="fas fa-times" id="clearSearchBtn" style="left: auto; right: 1rem; display: none; cursor: pointer;" title="Clear Search"></i>
+      </div>
+      <div class="auth-container">
+         <button class="btn-auth" id="authButton">
+            <i class="fas fa-user"></i>
+            <span>Login / Register</span>
+         </button>
+      </div>
+   </header>
+
+   <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="sidebar">
+         <div class="sidebar-header" style="cursor: pointer;">
+            <i class="fas fa-music"></i>
+            <h2>My Music</h2>
+         </div>
+
+         <button class="btn-create-playlist" id="createPlaylistBtn">
+            <i class="fas fa-plus"></i>
+            <span>Create Playlist</span>
+         </button>
+
+         <div class="playlists-section">
+            <h3>YOUR PLAYLISTS</h3>
+            <div id="playlistsList" class="playlists-list">
+            </div>
+         </div>
+      </aside>
+
+      <div id="spotifySidebarEmbed"
+         style="width: 330px; position: fixed; bottom: 0; left: 0; padding: 1rem; box-sizing: border-box; background: var(--surface); z-index: 1000; display: none;">
+      </div>
+
+
+      <main class="content-area" id="contentArea">
+         <div class="empty-state" id="emptyState">
+            <i class="fas fa-music"></i>
+            <p>Select a playlist to view songs</p>
+         </div>
+
+         <div class="home-view hidden" id="homeView">
+            <div class="home-section">
+               <div class="home-section-header">
+                  <i class="fas fa-heart"></i>
+                  <h2>Favorite Songs</h2>
+                  <span class="home-section-subtitle">Most popular tracks</span>
+               </div>
+               <div class="spotify-embeds-container">
+                  <div id="favoriteSongsBody">
+                  </div>
+               </div>
+            </div>
+
+            <div class="home-section">
+               <div class="home-section-header">
+                  <i class="fas fa-star"></i>
+                  <h2 id="favoriteArtistTitle">Favorite Artist</h2>
+                  <span class="home-section-subtitle">Top tracks from favorite artist</span>
+               </div>
+               <div class="spotify-embeds-container">
+                  <div id="favoriteArtistBody">
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="playlist-view hidden" id="playlistView">
+            <div class="playlist-header">
+               <div class="playlist-cover">
+                  <i class="fas fa-music"></i>
+               </div>
+               <div class="playlist-info">
+                  <span class="playlist-label">PLAYLIST</span>
+                  <h1 id="playlistTitle">Playlist Name</h1>
+                  <span id="playlistSongCount">0 songs</span>
+               </div>
+               <div class="playlist-actions">
+                  <button class="btn-menu" id="playlistMenuBtn">
+                     <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                  <div class="dropdown-menu" id="playlistDropdown">
+                     <button class="dropdown-item" id="renamePlaylistBtn">
+                        <i class="fas fa-edit"></i>
+                        <span>Rename Playlist</span>
+                     </button>
+                     <button class="dropdown-item danger" id="deletePlaylistBtn">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete Playlist</span>
+                     </button>
+                  </div>
+               </div>
+            </div>
+
+            <div class="spotify-embeds-container">
+               <div id="songsTableBody">
+               </div>
+            </div>
+
+            <div class="recommendations-section">
+               <div class="recommendations-header">
+                  <i class="fas fa-magic"></i>
+                  <h2>Recommended Songs</h2>
+                  <button class="btn-get-recommendations" id="getRecommendationsBtn">
+                     <i class="fas fa-magic"></i>
+                     Get Recommendations
+                  </button>
+               </div>
+               <div id="recommendationsTable" class="recommendations-table">
+               </div>
+            </div>
+         </div>
+
+         <div class="search-results hidden" id="searchResults">
+            <h2>Search Results</h2>
+            <div id="searchResultsBody" class="search-results-body">
+            </div>
+         </div>
+      </main>
+
+      <aside class="now-playing-sidebar" id="nowPlayingSidebar">
+         <h3>Now Playing</h3>
+         <div class="now-playing-content" id="nowPlayingContent">
+            <div class="empty-now-playing">
+               <i class="fas fa-headphones"></i>
+               <p>Select a song to view details</p>
+            </div>
+         </div>
+      </aside>
+   </div>
+
+   <!-- Modal for Create/Edit Playlist -->
+   <div class="modal hidden" id="playlistModal">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h2 id="modalTitle">Create New Playlist</h2>
+            <button class="btn-close" id="closeModal">
+               <i class="fas fa-times"></i>
+            </button>
+         </div>
+         <div class="modal-body">
+            <input type="text" id="playlistNameInput" placeholder="Playlist name" class="input-field">
+
+            <!-- Mini Search Section -->
+            <div class="mini-search-section">
+               <div class="mini-search-header">
+                  <i class="fas fa-search"></i>
+                  <span>Add songs to playlist (optional)</span>
+               </div>
+               <div class="mini-search-container">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="miniSearchInput" placeholder="Search for songs..." class="mini-search-input">
+               </div>
+               <div id="miniSearchResults" class="mini-search-results">
+                  <!-- Search results will appear here -->
+               </div>
+
+               <!-- Selected Tracks Section -->
+               <div id="selectedTracksSection" class="selected-tracks-section hidden">
+                  <div class="selected-tracks-header">
+                     <i class="fas fa-list"></i>
+                     <span>Selected Songs (<span id="selectedCount">0</span>)</span>
+                  </div>
+                  <div id="selectedTracksList">
+                     <!-- Selected tracks will appear here -->
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button class="btn-secondary" id="cancelModal">Cancel</button>
+            <button class="btn-primary" id="savePlaylist">Create</button>
+         </div>
+      </div>
+   </div>
+
+   <!-- Modal for Login/Register -->
+   <div class="modal hidden" id="authModal">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h2 id="authModalTitle">Login</h2>
+            <button class="btn-close" id="closeAuthModal">
+               <i class="fas fa-times"></i>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="auth-tabs">
+               <button class="auth-tab active" data-tab="login">Login</button>
+               <button class="auth-tab" data-tab="register">Register</button>
+            </div>
+            <form id="loginForm" class="auth-form">
+               <input type="email" id="loginEmail" placeholder="Email" class="input-field" required>
+               <input type="password" id="loginPassword" placeholder="Password" class="input-field" required>
+               <div class="auth-options">
+                  <label class="checkbox-container">
+                     <input type="checkbox" id="rememberMe">
+                     <span class="checkmark"></span>
+                     Remember me
+                  </label>
+                  <a href="#" id="forgotPasswordLink" class="forgot-password-link">Forgot password?</a>
+               </div>
+            </form>
+            <form id="registerForm" class="auth-form hidden">
+               <input type="text" id="registerName" placeholder="Name" class="input-field" required>
+               <input type="email" id="registerEmail" placeholder="Email" class="input-field" required>
+               <input type="password" id="registerPassword" placeholder="Password" class="input-field" required>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button class="btn-primary btn-full" id="authSubmit">Login</button>
+         </div>
+      </div>
+   </div>
+
+   <!-- Music Player (Fixed Bottom) -->
+   <div class="music-player hidden" id="musicPlayer">
+      <div class="player-track-info">
+         <div class="player-album-art" id="playerAlbumArt">
+            <i class="fas fa-music"></i>
+         </div>
+         <div class="player-track-details">
+            <div class="player-track-name" id="playerTrackName">Select a song</div>
+            <div class="player-track-artist" id="playerTrackArtist">Artist</div>
+         </div>
+      </div>
+
+      <div class="player-controls">
+         <div class="player-buttons">
+            <button class="player-btn" id="playerPrevBtn" title="Previous">
+               <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="player-btn player-btn-play" id="playerPlayBtn" title="Play">
+               <i class="fas fa-play"></i>
+            </button>
+            <button class="player-btn" id="playerNextBtn" title="Next">
+               <i class="fas fa-step-forward"></i>
+            </button>
+         </div>
+         <div class="player-progress">
+            <span class="player-time" id="playerCurrentTime">0:00</span>
+            <div class="progress-bar" id="playerProgressBar">
+               <div class="progress-bar-fill" id="playerProgressFill"></div>
+               <div class="progress-bar-handle" id="playerProgressHandle"></div>
+            </div>
+            <span class="player-time" id="playerDuration">0:00</span>
+         </div>
+      </div>
+
+      <div class="player-volume">
+         <button class="player-btn" id="playerVolumeBtn" title="Volume">
+            <i class="fas fa-volume-up"></i>
+         </button>
+         <div class="volume-slider">
+            <input type="range" id="volumeSlider" min="0" max="100" value="70" class="slider">
+         </div>
+      </div>
+
+
+      <audio id="audioPlayer" preload="metadata"></audio>
+   </div>
+
+   <script src="js/config.js"></script>
+   <script src="js/spotify.js"></script>
+   <script src="js/player.js"></script>
+   <script src="js/api.js"></script>
+   <script src="js/ui.js"></script>
+   <script src="js/app.js"></script>
+</body>
+
+</html>

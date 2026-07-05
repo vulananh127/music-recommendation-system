@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Embed Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        h1 {
+            color: #1DB954;
+        }
+        .embed-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #282828;
+            border-radius: 12px;
+        }
+        iframe {
+            border-radius: 12px;
+        }
+        .info {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Spotify Embed Test - Real Track IDs from Database</h1>
+    
+    <div class="embed-container">
+        <h2>Test Track 1: DRAM - Broccoli (feat. Lil Yachty)</h2>
+        <iframe 
+            src="https://open.spotify.com/embed/track/7yyRTcZmCiyzzJlNzGC9Ol" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="encrypted-media">
+        </iframe>
+        <div class="info">
+            Track URI: spotify:track:7yyRTcZmCiyzzJlNzGC9Ol<br>
+            Embed URL: https://open.spotify.com/embed/track/7yyRTcZmCiyzzJlNzGC9Ol<br>
+            Frequency: 226 (Most popular)
+        </div>
+    </div>
+
+    <div class="embed-container">
+        <h2>Test Track 2: R. Kelly - Ignition (Remix)</h2>
+        <iframe 
+            src="https://open.spotify.com/embed/track/5dNfHmqgr128gMY2tc5CeJ" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="encrypted-media">
+        </iframe>
+        <div class="info">
+            Track URI: spotify:track:5dNfHmqgr128gMY2tc5CeJ<br>
+            Embed URL: https://open.spotify.com/embed/track/5dNfHmqgr128gMY2tc5CeJ<br>
+            Frequency: 220
+        </div>
+    </div>
+
+    <div class="embed-container">
+        <h2>Test Track 3: Kanye West - Gold Digger</h2>
+        <iframe 
+            src="https://open.spotify.com/embed/track/5XJJdNPkwmbUwE79gv0NxK" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="encrypted-media">
+        </iframe>
+        <div class="info">
+            Track URI: spotify:track:5XJJdNPkwmbUwE79gv0NxK<br>
+            Embed URL: https://open.spotify.com/embed/track/5XJJdNPkwmbUwE79gv0NxK<br>
+            Frequency: 214
+        </div>
+    </div>
+
+    <div class="embed-container">
+        <h2>Test Track 4: J. Cole - No Role Modelz</h2>
+        <iframe 
+            src="https://open.spotify.com/embed/track/62vpWI1CHwFy7tMIcSStl8" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="encrypted-media">
+        </iframe>
+        <div class="info">
+            Track URI: spotify:track:62vpWI1CHwFy7tMIcSStl8<br>
+            Embed URL: https://open.spotify.com/embed/track/62vpWI1CHwFy7tMIcSStl8<br>
+            Frequency: 211
+        </div>
+    </div>
+
+    <div class="embed-container">
+        <h2>Test Track 5: The Chainsmokers - Closer</h2>
+        <iframe 
+            src="https://open.spotify.com/embed/track/7BKLCZ1jbUBVqRi2FVlTVw" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allowtransparency="true" 
+            allow="encrypted-media">
+        </iframe>
+        <div class="info">
+            Track URI: spotify:track:7BKLCZ1jbUBVqRi2FVlTVw<br>
+            Embed URL: https://open.spotify.com/embed/track/7BKLCZ1jbUBVqRi2FVlTVw<br>
+            Frequency: 203
+        </div>
+    </div>
+
+    <script>
+        // Test function to convert URI to Embed URL
+        function uriToEmbed(uri) {
+            if (!uri) return null;
+            const id = uri.split(":")[2];
+            return `https://open.spotify.com/embed/track/${id}`;
+        }
+
+        // Test the function
+        console.log('Testing uriToEmbed function:');
+        console.log('Input: spotify:track:7yyRTcZmCiyzzJlNzGC9Ol');
+        console.log('Output:', uriToEmbed('spotify:track:7yyRTcZmCiyzzJlNzGC9Ol'));
+        
+        // Test all track URIs from database
+        const testTracks = [
+            { name: 'DRAM - Broccoli', uri: 'spotify:track:7yyRTcZmCiyzzJlNzGC9Ol' },
+            { name: 'R. Kelly - Ignition', uri: 'spotify:track:5dNfHmqgr128gMY2tc5CeJ' },
+            { name: 'Kanye West - Gold Digger', uri: 'spotify:track:5XJJdNPkwmbUwE79gv0NxK' },
+            { name: 'J. Cole - No Role Modelz', uri: 'spotify:track:62vpWI1CHwFy7tMIcSStl8' },
+            { name: 'The Chainsmokers - Closer', uri: 'spotify:track:7BKLCZ1jbUBVqRi2FVlTVw' }
+        ];
+        
+        console.log('\n📋 All test tracks:');
+        testTracks.forEach((track, index) => {
+            const embedUrl = uriToEmbed(track.uri);
+            console.log(`${index + 1}. ${track.name}`);
+            console.log(`   URI: ${track.uri}`);
+            console.log(`   Embed: ${embedUrl}`);
+        });
+        
+        // Listen for iframe load errors
+        document.addEventListener('DOMContentLoaded', () => {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach((iframe, index) => {
+                iframe.addEventListener('load', () => {
+                    console.log(`✅ iframe ${index + 1} loaded successfully`);
+                });
+                iframe.addEventListener('error', (e) => {
+                    console.error(`❌ iframe ${index + 1} failed to load:`, e);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
